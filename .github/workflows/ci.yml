@@ -1,0 +1,45 @@
+# Alibaba Cloud Function Compute Build CI
+name: build
+
+# 监听
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - release/*
+
+# 任务
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+        os: [macOS-latest]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+      
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install Dependencie
+      run: |
+        yarn install
+        yarn global add @alicloud/fun rimraf
+  
+    - name: Deploy
+      run: |
+        fun deploy -t template.yml
+      env:
+        ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
+        REGION: ${{ secrets.REGION }}
+        ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        ACCESS_KEY_SECRET: ${{ secrets.ACCESS_KEY_SECRET }}
+        TIMEOUT: ${{ secrets.TIMEOUT }}
+        RETRIES: ${{ secrets.RETRIES }}
