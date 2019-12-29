@@ -1,0 +1,27 @@
+## Alibaba Cloud funcraft ignore file 
+
+# ENV
+!.env
+
+# CI
+# .github
+
+## SOURCE FILES
+# backup
+# node_modules
+# bin
+# src
+# gateway.ts
+# handler.ts
+# server.ts
+# tsconfig.json
+# .gitignore
+# .npmrc
+# dragonfly
+# yarn-error.log
+# yarn.lock
+
+## DOCS
+# LICENSE
+# README.md
+# nodemon.json

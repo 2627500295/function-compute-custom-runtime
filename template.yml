@@ -1,0 +1,31 @@
+ROSTemplateFormatVersion: '2015-09-01'
+Transform: 'Aliyun::Serverless-2018-04-03'
+Resources:
+  openapi:
+    Type: 'Aliyun::Serverless::Service'
+    Properties:
+      InternetAccess: true
+    core:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: index.handler
+        Runtime: custom
+        Timeout: 600
+        MemorySize: 128
+        EnvironmentVariables:
+          PORT: 9000
+          HOSTNAME: 0.0.0.0
+          PATH: /code/.bin:/code/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/sbin:/bin
+        CodeUri: .
+        # CodeUri: ./openapi/core
+      Events:
+        core:
+          Type: HTTP
+          Properties:
+            AuthType: anonymous
+            Methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - HEAD
